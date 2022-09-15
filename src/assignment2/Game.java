@@ -6,21 +6,40 @@
 
 package assignment2;
 
-public class Game {
+import java.util.Scanner;
 
-private int attempts;
-private String secretCode;
+public class Game {
+    private static Scanner in = new Scanner(System.in);
+    private int attempts;
+    private String secretCode;
 //private String secretCode;
 
 public Game (boolean testing){
     secretCode = SecretCodeGenerator.getInstance().getNewSecretCode();
     attempts = GameConfiguration.guessNumber;
     if(testing == true){
-        System.out.println("Game is on testing mode");
+        System.out.println("Game is on testing mode:");
         System.out.println("The code is: " + secretCode);
     }
-
-
+}
+public int getAttempts(){
+    return attempts;
+}
+public static void newGamePrompt(){
+    System.out.println("Are you ready for another game? (Y/N):");
+    String response;
+    response = in.nextLine();
+    if(response.equals("Y") || response.equals("y")){
+        System.out.println("\nGenerating secret code.....\n");
+    }
+    else if (response.equals("N")||response.equals("n")){
+        System.out.println("\nWelp :(");
+        System.exit(0);
+    }
+    else{
+        System.out.println("\n Invalid Input");
+        System.exit(0);
+    }
 }
 public void userPrompt (){
 
@@ -30,6 +49,7 @@ public void analyseUserInput (){
 }
 
 static public void intro (){
+    //Scanner in = new Scanner(System.in);
     System.out.println("Welcome to Mastermind.  Here are the rules.\n");
     System.out.println("This is a text version of the classic board game Mastermind.\n");
     System.out.println("The computer will think of a secret code. The code consists of 4\n" +
@@ -48,6 +68,20 @@ static public void intro (){
             "first character of each color as a capital letter.\n");
     System.out.print("You have " + GameConfiguration.guessNumber + " guesses to figure out the secret code or you lose the\n" +
             "game. Are you ready to play? (Y/N): ");
+    String response;
+    response = in.nextLine();
+    if(response.equals("Y") || response.equals("y")){
+        System.out.println("\nGenerating secret code.....\n");
+
+    }
+    else if (response.equals("N")||response.equals("n")){
+        System.out.println("\nWelp :(");
+        System.exit(0);
+    }
+    else{
+        System.out.println("\n Invalid Input");
+        System.exit(0);
+    }
 
 }
 

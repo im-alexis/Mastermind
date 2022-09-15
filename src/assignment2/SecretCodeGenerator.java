@@ -1,9 +1,3 @@
-/* EE422C Assignment #2 submission by
- * 9/14/2022
- * Alexis Torres
- * at39625
- */
-
 package assignment2;
 
 import java.util.Random;

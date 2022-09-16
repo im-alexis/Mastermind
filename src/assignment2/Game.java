@@ -6,12 +6,18 @@
 
 package assignment2;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Game {
     private static Scanner in = new Scanner(System.in);
     private int attempts;
     private String secretCode;
+
+    private ArrayList resultHistory = new ArrayList<>();
+    private boolean solved = false;
 //private String secretCode;
 
 public Game (boolean testing){
@@ -19,7 +25,7 @@ public Game (boolean testing){
     attempts = GameConfiguration.guessNumber;
     if(testing == true){
         System.out.println("Game is on testing mode:");
-        System.out.println("The code is: " + secretCode);
+        System.out.println("The code is: " + secretCode + "\n");
     }
 }
 public int getAttempts(){
@@ -42,13 +48,65 @@ public static void newGamePrompt(){
     }
 }
 public void userPrompt (){
+    System.out.print("You have " + attempts + " guesses left.\n"
+    +"What is your next guess?\n" + "Type in the characters for your guess and press enter.\n" +
+            "Enter guess: ");
 
 }
-public void analyseUserInput (){
+private boolean isValid(String userInput){
+    if(userInput.length() != 4){return false;}
+    String test;
+    List test2 = Arrays.asList(GameConfiguration.colors);
+    boolean test3 = Arrays.asList(GameConfiguration.colors).contains(userInput.substring(0,1));
+    for(int i = 0; i < userInput.length(); i++){
+        test = userInput.substring(i,i+1);
 
+       if(!Arrays.asList(GameConfiguration.colors).contains(userInput.substring(i,i+1))){
+           return false;
+       }
+    }
+    return true;
+}
+public void analyseUserInput (String userInput){
+    int bPeg = 0;
+    int wPeg = 0;
+    String pegResult;
+    if(userInput.equals("HISTORY") ||userInput.equals("history") || userInput.equals("History") ){
+        for(int i = 0; i < resultHistory.size(); i++){
+            System.out.println(resultHistory.get(i));
+            return;
+        }
+    }
+   boolean valid = isValid(userInput);
+   if(valid == false){
+       System.out.println("-> INVALID GUESS");
+   }
+   if(valid == true){
+       for(int i = 0; i < userInput.length(); i++){
+           if(userInput.substring(i,i+1).equals(secretCode.substring(i,i+1))){
+               bPeg++;
+               if(bPeg == GameConfiguration.pegNumber){
+                   solved = true;
+               }
+           }
+       }
+
+       attempts--;
+       pegResult = userInput + " -> Result: " + bPeg + "B_" + wPeg + "W";
+       resultHistory.add(pegResult);
+       System.out.print("\n" + pegResult);
+       int test;
+
+   }
 }
 
-static public void intro (){
+public  boolean solvedCodeStatus(){
+    return solved;
+}
+public static void pegResult (){
+
+}
+public static  void intro (){
     //Scanner in = new Scanner(System.in);
     System.out.println("Welcome to Mastermind.  Here are the rules.\n");
     System.out.println("This is a text version of the classic board game Mastermind.\n");

@@ -17,8 +17,16 @@ public class Driver {
         Game runningGame = new Game(training);
         while (runningGame.getAttempts() > 0) {
             runningGame.userPrompt();
-            runningGame.analyseUserInput();
+            userInput = in.nextLine();
+            runningGame.analyseUserInput(userInput);
+            if (runningGame.solvedCodeStatus()){
+                System.out.print(" - You Win !! \n\n");
+                break;
+                }
             }
+        if(!runningGame.solvedCodeStatus()){
+            System.out.println("Sorry, you are out of guesses. You lose, boo-hoo.");
+        }
         Game.newGamePrompt();
         }
 

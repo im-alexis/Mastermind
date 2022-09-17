@@ -12,16 +12,16 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Game {
-    private static Scanner in = new Scanner(System.in);
+    private static Scanner in = new Scanner(System.in); //i'm lazy and don't want to make many
     private int attempts;
     private String secretCode;
-
     private ArrayList resultHistory = new ArrayList<>();
     private boolean solved = false;
 //private String secretCode;
 
 public Game (boolean testing){
-    secretCode = SecretCodeGenerator.getInstance().getNewSecretCode();
+    secretCode = "YPYB";
+    //secretCode = SecretCodeGenerator.getInstance().getNewSecretCode();
     attempts = GameConfiguration.guessNumber;
     if(testing == true){
         System.out.println("Game is on testing mode:");
@@ -32,7 +32,7 @@ public int getAttempts(){
     return attempts;
 }
 public static void newGamePrompt(){
-    System.out.println("Are you ready for another game? (Y/N):");
+    System.out.print("Are you ready for another game? (Y/N):");
     String response;
     response = in.nextLine();
     if(response.equals("Y") || response.equals("y")){
@@ -55,11 +55,7 @@ public void userPrompt (){
 }
 private boolean isValid(String userInput){
     if(userInput.length() != 4){return false;}
-    String test;
-    List test2 = Arrays.asList(GameConfiguration.colors);
-    boolean test3 = Arrays.asList(GameConfiguration.colors).contains(userInput.substring(0,1));
     for(int i = 0; i < userInput.length(); i++){
-        test = userInput.substring(i,i+1);
 
        if(!Arrays.asList(GameConfiguration.colors).contains(userInput.substring(i,i+1))){
            return false;
@@ -72,14 +68,16 @@ public void analyseUserInput (String userInput){
     int wPeg = 0;
     String pegResult;
     if(userInput.equals("HISTORY") ||userInput.equals("history") || userInput.equals("History") ){
+        System.out.println("\n");
         for(int i = 0; i < resultHistory.size(); i++){
             System.out.println(resultHistory.get(i));
-            return;
         }
+        System.out.println("\n");
+        return;
     }
    boolean valid = isValid(userInput);
    if(valid == false){
-       System.out.println("-> INVALID GUESS");
+       System.out.println("\n-> INVALID GUESS\n");
    }
    if(valid == true){
        for(int i = 0; i < userInput.length(); i++){
@@ -88,13 +86,16 @@ public void analyseUserInput (String userInput){
                if(bPeg == GameConfiguration.pegNumber){
                    solved = true;
                }
+           } else if (!userInput.substring(i,i+1).equals(secretCode.substring(i,i+1))
+                   && userInput.contains(secretCode.substring(i,i+1))) { //secretCode.contains(userInput.substring(i,i+1) ))
+               wPeg++;
            }
        }
 
        attempts--;
        pegResult = userInput + " -> Result: " + bPeg + "B_" + wPeg + "W";
        resultHistory.add(pegResult);
-       System.out.print("\n" + pegResult);
+       System.out.print("\n" + pegResult + "\n\n");
        int test;
 
    }
@@ -103,8 +104,8 @@ public void analyseUserInput (String userInput){
 public  boolean solvedCodeStatus(){
     return solved;
 }
-public static void pegResult (){
-
+public String getSecretCode(){
+    return secretCode;
 }
 public static  void intro (){
     //Scanner in = new Scanner(System.in);

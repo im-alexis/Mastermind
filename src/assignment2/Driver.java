@@ -25,7 +25,8 @@ public class Driver {
                 }
             }
         if(!runningGame.solvedCodeStatus()){
-            System.out.println("Sorry, you are out of guesses. You lose, boo-hoo.");
+            System.out.println("Sorry, you are out of guesses. You lose, boo-hoo. ");
+            System.out.println("The secrete code was: " + runningGame.getSecretCode() + "\n");
         }
         Game.newGamePrompt();
         }

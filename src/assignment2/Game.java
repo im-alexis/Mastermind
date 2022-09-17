@@ -20,8 +20,7 @@ public class Game {
 //private String secretCode;
 
 public Game (boolean testing){
-    secretCode = "YPYB";
-    //secretCode = SecretCodeGenerator.getInstance().getNewSecretCode();
+    secretCode = SecretCodeGenerator.getInstance().getNewSecretCode();
     attempts = GameConfiguration.guessNumber;
     if(testing == true){
         System.out.println("Game is on testing mode:");

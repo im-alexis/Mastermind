@@ -19,8 +19,8 @@ public class Game {
 //private String secretCode;
 
 public Game (boolean testing){
-    //secretCode = SecretCodeGenerator.getInstance().getNewSecretCode();
-    secretCode = "YPYB";
+    secretCode = SecretCodeGenerator.getInstance().getNewSecretCode();
+    //secretCode = "YPYB";
     attempts = GameConfiguration.guessNumber;
     if(testing){
         System.out.println("Game is on testing mode:");
@@ -74,7 +74,7 @@ public void analyseUserInput (String userInput){
                }
            } else if (!userInput.substring(i,i+1).equals(secretCode.substring(i,i+1))
                    && userInput.contains(secretCode.substring(i,i+1))
-                   && secretCode.contains(userInput.substring(i,i+1))) { //secretCode.contains(userInput.substring(i,i+1))
+                   && !secretCode.contains(userInput.substring(i,i+1))) { //secretCode.contains(userInput.substring(i,i+1))
                wPeg++;
            }
        }

@@ -16,10 +16,10 @@ public class Driver {
         training = true;
         }
 
-        UserText.intro();
-        while(true) {
-        Game runningGame = new Game(training);
-        while (runningGame.getAttempts() > 0) {
+        UserText.intro(); //intro just runs
+        while(true) {// runs an infinite loop so the game keeps looping until the user puts no or invalid for the game start prompt
+        Game runningGame = new Game(training); // creates a game objects
+        while (runningGame.getAttempts() > 0) { // constant loop of prompting user, analyzing the input and checking if they solved it
             runningGame.userPrompt();
             userInput = in.nextLine();
             runningGame.analyseUserInput(userInput);

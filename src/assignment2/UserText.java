@@ -8,7 +8,7 @@ package assignment2;
 
 import java.util.Scanner;
 
-public class UserHandler {
+public class UserText {
 
 public static void gameStartResponse () {
         Scanner in = new Scanner(System.in);
@@ -55,11 +55,11 @@ public static void gameStartResponse () {
             """);
         System.out.print("You have " + GameConfiguration.guessNumber + " guesses to figure out the secret code or you lose the\n" +
                 "game. Are you ready to play? (Y/N): ");
-        UserHandler.gameStartResponse();
+        UserText.gameStartResponse();
     }
     public static void newGamePrompt(){
         System.out.print("Are you ready for another game? (Y/N):");
-        UserHandler.gameStartResponse();
+        UserText.gameStartResponse();
     }
 
 }

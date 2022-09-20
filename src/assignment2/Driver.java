@@ -16,7 +16,7 @@ public class Driver {
         training = true;
         }
 
-        UserHandler.intro();
+        UserText.intro();
         while(true) {
         Game runningGame = new Game(training);
         while (runningGame.getAttempts() > 0) {
@@ -32,7 +32,7 @@ public class Driver {
             System.out.println("Sorry, you are out of guesses. You lose, boo-hoo. ");
             System.out.println("The secret code was: " + runningGame.getSecretCode() + "\n");
         }
-            UserHandler.newGamePrompt();
+            UserText.newGamePrompt();
         }
 
 

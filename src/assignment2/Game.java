@@ -16,17 +16,23 @@ public class Game {
     private final String secretCode;
     private final ArrayList<Object>  resultHistory = new ArrayList<>();
     private boolean solved = false;
-//private String secretCode;
+
 
 public Game (boolean testing){
     secretCode = SecretCodeGenerator.getInstance().getNewSecretCode();
     //secretCode = "YPYB";
+    //secretCode = "YOYR";
+    //secretCode ="YYYY";
+   // secretCode = "GGOG";
+    //secretCode = "RBYB";
+    //secretCode = "BPBO";
     attempts = GameConfiguration.guessNumber;
     if(testing){
         System.out.println("Game is on testing mode:");
         System.out.println("The code is: " + secretCode + "\n");
     }
 }
+
 public int getAttempts(){
     return attempts;
 }
@@ -40,6 +46,7 @@ public void userPrompt (){
             "Enter guess: ");
 
 }
+
 private boolean isValid(String userInput){
     if(userInput.length() != 4){return false;}
     for(int i = 0; i < userInput.length(); i++){
@@ -49,44 +56,58 @@ private boolean isValid(String userInput){
     }
     return true;
 }
-public void analyseUserInput (String userInput){
+
+public void analyseUserInput (String userInput) {
+    ArrayList bIndex = new ArrayList<>(); // holding the index of the color
+    ArrayList wIndex = new ArrayList<>();
     int bPeg = 0;
     int wPeg = 0;
     String pegResult;
-    if(userInput.equals("HISTORY") ||userInput.equals("history") || userInput.equals("History") ){
-        System.out.println("\n");
-        for(int i = 0; i < resultHistory.size(); i++){
+    if (userInput.equals("HISTORY") || userInput.equals("history") || userInput.equals("History")) {
+        System.out.println("\nGuess          Result");
+        for (int i = 0; i < resultHistory.size(); i++) {
             System.out.println(resultHistory.get(i));
         }
         System.out.println("\n");
         return;
+        }
+    boolean valid = isValid(userInput);
+    if (!valid) {
+        System.out.println("\n" + userInput + "-> INVALID GUESS\n");
+        return;
+        }
+    if (valid) {
+        for (int i = 0; i < userInput.length(); i++) {
+            if (userInput.substring(i, i + 1).equals(secretCode.substring(i, i + 1))) {
+                bPeg++;
+                bIndex.add(i);
+                if (bPeg == GameConfiguration.pegNumber) {
+                    solved = true;
+                }
+            }
+        }
+        boolean doneWithCol;
+        for(int i = 0; i < userInput.length(); i++){
+            doneWithCol = false; //makes life easier if I know when im done with the letter
+            if(!bIndex.contains(i)){
+                for(int j = 0; j < userInput.length(); j++) {
+                    if(userInput.substring(i, i+1).equals(secretCode.substring(j,j+1))){
+                        if(!bIndex.contains(j) && !wIndex.contains(j) && !doneWithCol){
+                            wPeg++;
+                            wIndex.add(j);
+                            doneWithCol = true;
+                        }
+                    }
+                }
+            }
+        }
+        attempts--;
+        pegResult = userInput + " -> Result: " + bPeg + "B_" + wPeg + "W";
+        resultHistory.add(pegResult);
+        System.out.print("\n" + pegResult + "\n\n");
     }
-   boolean valid = isValid(userInput);
-   if(!valid){
-       System.out.println("\n-> INVALID GUESS\n");
-   }
-   if(valid){
-       for(int i = 0; i < userInput.length(); i++){
-           if(userInput.substring(i,i+1).equals(secretCode.substring(i,i+1))){
-               bPeg++;
-               if(bPeg == GameConfiguration.pegNumber){
-                   solved = true;
-               }
-           } else if (!userInput.substring(i,i+1).equals(secretCode.substring(i,i+1))
-                   && userInput.contains(secretCode.substring(i,i+1))
-                   && !secretCode.contains(userInput.substring(i,i+1))) { //secretCode.contains(userInput.substring(i,i+1))
-               wPeg++;
-           }
-       }
-       attempts--;
-       pegResult = userInput + " -> Result: " + bPeg + "B_" + wPeg + "W";
-       resultHistory.add(pegResult);
-       System.out.print("\n" + pegResult + "\n\n");
-   }
+
 }
-
-
-
 
 
 

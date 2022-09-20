@@ -8,7 +8,7 @@ package assignment2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Scanner;
+
 
 public class Game {
     private int attempts;
@@ -57,8 +57,8 @@ private boolean isValid(String userInput){
 }
 
 public void analyseUserInput (String userInput) {
-    ArrayList bIndex = new ArrayList<>(); // holding the index of the white and black pegs
-    ArrayList wIndex = new ArrayList<>();
+    ArrayList <Object> bIndex = new ArrayList<>(); // holding the index of the white and black pegs
+    ArrayList <Object> wIndex = new ArrayList<>();
     int bPeg = 0;
     int wPeg = 0;
     String pegResult;
@@ -75,36 +75,34 @@ public void analyseUserInput (String userInput) {
         System.out.println("\n" + userInput + "-> INVALID GUESS\n");
         return;
         }
-    if (valid) {
-        for (int i = 0; i < userInput.length(); i++) { //doing bPegs first makes tracking what is has been found easier
-            if (userInput.substring(i, i + 1).equals(this.secretCode.substring(i, i + 1))) {
-                bPeg++;
-                bIndex.add(i);
-                if (bPeg == GameConfiguration.pegNumber) {
-                    this.solved = true;
-                }
+    for (int i = 0; i < userInput.length(); i++) { //doing bPegs first makes tracking what is has been found easier
+        if (userInput.substring(i, i + 1).equals(this.secretCode.substring(i, i + 1))) {
+            bPeg++;
+            bIndex.add(i);
+            if (bPeg == GameConfiguration.pegNumber) {
+                this.solved = true;
             }
         }
-        boolean doneWithCol; // since I am checking multiple pegs, this help to know when the white peg has been placed in the right spot
-        for(int i = 0; i < userInput.length(); i++){
-            doneWithCol = false;
-            if(!bIndex.contains(i)){
-                for(int j = 0; j < userInput.length(); j++) {
-                    if(userInput.substring(i, i+1).equals(this.secretCode.substring(j,j+1))){
-                        if(!bIndex.contains(j) && !wIndex.contains(j) && !doneWithCol){ // if the color has not been found and wPeg has not been incremented
-                            wPeg++;
-                            wIndex.add(j);
-                            doneWithCol = true; // this to not go back into the if statements and increment wPeg w/ repeats
-                        }
+    }
+    boolean doneWithCol; // since I am checking multiple pegs, this help to know when the white peg has been placed in the right spot
+    for(int i = 0; i < userInput.length(); i++){
+        doneWithCol = false;
+        if(!bIndex.contains(i)){
+            for(int j = 0; j < userInput.length(); j++) {
+                if(userInput.substring(i, i+1).equals(this.secretCode.substring(j,j+1))){
+                    if(!bIndex.contains(j) && !wIndex.contains(j) && !doneWithCol){ // if the color has not been found and wPeg has not been incremented
+                        wPeg++;
+                        wIndex.add(j);
+                        doneWithCol = true; // this to not go back into the if statements and increment wPeg w/ repeats
                     }
                 }
             }
         }
-        this.attempts--;
-        pegResult = userInput + " -> Result: " + bPeg + "B_" + wPeg + "W";
-        this.resultHistory.add(pegResult);
-        System.out.print("\n" + pegResult + "\n\n");
     }
+    this.attempts--;
+    pegResult = userInput + " -> Result: " + bPeg + "B_" + wPeg + "W";
+    this.resultHistory.add(pegResult);
+    System.out.print("\n" + pegResult + "\n\n");
 
 }
 

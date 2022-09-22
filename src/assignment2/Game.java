@@ -13,7 +13,7 @@ import java.util.Arrays;
 public class Game {
     private int attempts;
     private final String secretCode;
-    private final ArrayList<Object>  resultHistory = new ArrayList<>(); // is going to hold the result history in the format userInput + "-> result: " +pegResult
+    private final ArrayList<String>  resultHistory = new ArrayList<>(); // is going to hold the result history in the format userInput + "-> result: " +pegResult
     private boolean solved = false; // easy way to know when done is having a solved flag
 
 
@@ -37,7 +37,7 @@ public int getAttempts(){
 }
 public  boolean solvedCodeStatus(){return solved;}
     public String getSecretCode(){return secretCode;}
-    public ArrayList<Object> getResultHistory (){return resultHistory;}
+    public ArrayList<String> getResultHistory (){return resultHistory;}
 
 public void userPrompt (){
     System.out.print("You have " + this.attempts + " guesses left.\n"
@@ -63,9 +63,9 @@ public void analyseUserInput (String userInput) {
     int wPeg = 0;
     String pegResult;
     if (userInput.equals("HISTORY") || userInput.equals("history") || userInput.equals("History")) { // can use different variations of history to access
-        System.out.println("\nGuess          Result");
+        System.out.println("\nGuess         Result");
         for (int i = 0; i < this.resultHistory.size(); i++) {
-            System.out.println(this.resultHistory.get(i));
+            System.out.println(this.resultHistory.get(i).substring(0,4) +"          " + this.resultHistory.get(i).substring(16) );
         }
         System.out.println("\n");
         return;

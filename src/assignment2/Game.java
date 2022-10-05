@@ -8,6 +8,7 @@ package assignment2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 
 public class Game {
@@ -19,92 +20,54 @@ public class Game {
 
 public Game (boolean testing){
     this.secretCode = SecretCodeGenerator.getInstance().getNewSecretCode();
-    //secretCode = "YPYB";
-    //secretCode = "YOYR";
-    //secretCode = "YYYY";
-   // secretCode = "GGOG";
-    //secretCode = "RBYB";
-    //secretCode = "BPBO";
    this.attempts = GameConfiguration.guessNumber;
     if(testing){
-        System.out.println("Game is on testing mode:");
-        System.out.println("The code is: " + this.secretCode + "\n");
+        System.out.println("(for this example the secret code is " + secretCode + ")\n");
+    }
+    else {
+        System.out.println("\n");
     }
 }
 
-public int getAttempts(){
+    public int getAttempts(){
     return attempts;
 }
-public  boolean solvedCodeStatus(){return solved;}
+    public  boolean getSolved(){return solved;}
     public String getSecretCode(){return secretCode;}
     public ArrayList<String> getResultHistory (){return resultHistory;}
 
-public void userPrompt (){
-    System.out.print("You have " + this.attempts + " guesses left.\n"
-    +"What is your next guess?\n" + "Type in the characters for your guess and press enter.\n" +
-            "Enter guess: ");
-
-}
-
-private boolean isValid(String userInput){
-    if(userInput.length() != GameConfiguration.pegNumber){return false;} // if it is not equal to the chars needed then its automatically not valid
-    for(int i = 0; i < userInput.length(); i++){
-       if(!Arrays.asList(GameConfiguration.colors).contains(userInput.substring(i,i+1))){ // if it dones not cointain the color then it is not valid
-           return false;
-       }
+    public void setSolved(boolean status){
+        solved = status;
     }
-    return true;
-}
-
-public void analyseUserInput (String userInput) {
-    ArrayList <Object> bIndex = new ArrayList<>(); // holding the index of the white and black pegs
-    ArrayList <Object> wIndex = new ArrayList<>();
-    int bPeg = 0;
-    int wPeg = 0;
-    String pegResult;
-    if (userInput.equals("HISTORY") || userInput.equals("history") || userInput.equals("History")) { // can use different variations of history to access
-        System.out.println("\nGuess         Result");
-        for (int i = 0; i < this.resultHistory.size(); i++) {
-            System.out.println(this.resultHistory.get(i).substring(0,4) +"          " + this.resultHistory.get(i).substring(16) );
-        }
-        System.out.println("\n");
-        return;
-        }
-    boolean valid = isValid(userInput);
-    if (!valid) {
-        System.out.println("\n" + userInput + "-> INVALID GUESS\n");
-        return;
-        }
-    for (int i = 0; i < userInput.length(); i++) { //doing bPegs first makes tracking what is has been found easier
-        if (userInput.substring(i, i + 1).equals(this.secretCode.substring(i, i + 1))) {
-            bPeg++;
-            bIndex.add(i);
-            if (bPeg == GameConfiguration.pegNumber) {
-                this.solved = true;
-            }
-        }
+    public void addToHistory (String peg){
+        this.resultHistory.add(peg);
     }
-    boolean doneWithCol; // since I am checking multiple pegs, this help to know when the white peg has been placed in the right spot
-    for(int i = 0; i < userInput.length(); i++){
-        doneWithCol = false;
-        if(!bIndex.contains(i)){
-            for(int j = 0; j < userInput.length(); j++) {
-                if(userInput.substring(i, i+1).equals(this.secretCode.substring(j,j+1))){
-                    if(!bIndex.contains(j) && !wIndex.contains(j) && !doneWithCol){ // if the color has not been found and wPeg has not been incremented
-                        wPeg++;
-                        wIndex.add(j);
-                        doneWithCol = true; // this to not go back into the if statements and increment wPeg w/ repeats
-                    }
+    public void usedAttempt (){
+        attempts -- ;
+    }
+
+    public void runGame(Scanner in){
+       String userInput;
+            while (this.getAttempts() > 0) { // constant loop of prompting user, analyzing the input and checking if they solved it
+                UserText.userPrompt(this);
+                userInput = in.nextLine();
+                Pegs.analyseUserInput(userInput, this);
+                if (solved){
+                    System.out.print(" - You win !! \n\n");
+                    break;
                 }
             }
-        }
-    }
-    this.attempts--;
-    pegResult = userInput + " -> Result: " + bPeg + "B_" + wPeg + "W";
-    this.resultHistory.add(pegResult);
-    System.out.print("\n" + pegResult + "\n\n");
+            if(!solved){
+                System.out.println("Sorry, you are out of guesses. You lose, boo-hoo.");
+                //System.out.println("The secret code was: " + secretCode + "\n");
+            }
 
-}
+    }
+
+
+
+
+
 
 
 

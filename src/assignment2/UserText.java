@@ -10,27 +10,27 @@ import java.util.Scanner;
 
 public class UserText {
 
-public static void gameStartResponse () {
-        Scanner in = new Scanner(System.in);
+public static void gameStartResponse (Scanner in) {
+
         String response;
         response = in.nextLine();
-        if(response.equals("Y") || response.equals("y")){
-            System.out.println("\nGenerating secret code.....\n");
+        if(response.equals("Y")){
+            System.out.print("\nGenerating secret code ...");
 
         }
-        else if (response.equals("N")||response.equals("n")){
+        else if (response.equals("N")){
             System.out.println("\nWelp ight then :'(");
             System.exit(0);
         }
         else{
-            System.out.println("\n Invalid Input");
+            System.out.println("\nInvalid Input");
             System.exit(0);
         }
 
     }
 
     public static  void intro (){
-        //Scanner in = new Scanner(System.in);
+
         System.out.println("Welcome to Mastermind.  Here are the rules.\n");
         System.out.println("This is a text version of the classic board game Mastermind.\n");
         System.out.println("""
@@ -55,11 +55,21 @@ public static void gameStartResponse () {
             """);
         System.out.print("You have " + GameConfiguration.guessNumber + " guesses to figure out the secret code or you lose the\n" +
                 "game. Are you ready to play? (Y/N): ");
-        UserText.gameStartResponse();
+
+
     }
     public static void newGamePrompt(){
         System.out.print("Are you ready for another game? (Y/N):");
-        UserText.gameStartResponse();
+
+
     }
+    public static void userPrompt (Game runningGame){
+        System.out.print("You have " + runningGame.getAttempts() + " guesses left.\n"
+                +"What is your next guess?\n" + "Type in the characters for your guess and press enter.\n" +
+                "Enter guess: ");
+
+
+    }
+
 
 }

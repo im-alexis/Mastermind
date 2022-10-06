@@ -58,7 +58,7 @@ public Game (boolean testing){
                 }
             }
             if(!solved){
-                System.out.println("Sorry, you are out of guesses. You lose, boo-hoo.");
+                System.out.println("Sorry, you are out of guesses. You lose, boo-hoo.\n");
                 //System.out.println("The secret code was: " + secretCode + "\n");
             }
 

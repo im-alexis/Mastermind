@@ -64,7 +64,7 @@ public class Pegs {
             }
         }
         runningGame.usedAttempt();
-        if(!runningGame.getSolved()) {
+        if(!runningGame.getSolved() && runningGame.getAttempts() > 0) {
             pegResult = userInput + " -> Result: " + bPeg + "B_" + wPeg + "W";
             runningGame.addToHistory(pegResult);
             System.out.print("\n" + pegResult + "\n\n");
@@ -73,7 +73,10 @@ public class Pegs {
             pegResult = userInput + " -> Result: " + bPeg + "B_" + wPeg + "W";
             runningGame.addToHistory(pegResult);
             System.out.print("\n" + pegResult);
+        } else if (!runningGame.getSolved() && runningGame.getAttempts()  == 0) {
+            System.out.println();
         }
+
 
     }
 }
